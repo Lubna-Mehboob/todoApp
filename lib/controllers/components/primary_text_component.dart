@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/constants/colors/app_colors.dart';
 
 class PrimaryTxtComponent extends StatelessWidget {
-  String 
-  const PrimaryTxtComponent({super.key});
+  final String appText;
+  const PrimaryTxtComponent({super.key, required this.appText});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'ToDo App',
+      appText,
       style: TextStyle(
         color: AppColors.appPrimaryColor,
       ),
