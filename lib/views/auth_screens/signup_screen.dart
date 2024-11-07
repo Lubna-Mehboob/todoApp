@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:todoapp/constants/app_assets/images.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
 import 'package:todoapp/controllers/components/conatiner_component.dart';
+import 'package:todoapp/controllers/components/custom_button_component.dart';
 import 'package:todoapp/controllers/components/image_component.dart';
 import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
@@ -86,8 +87,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             //     ),
             //   ),
             // )
-
+            const SizedBox(
+              height: 20,
+            ),
             //Custom Button Component--------------------------------------------------------
+            ButtonComponent(buttonText: 'Login', onbuttonTap: () {}),
+
+            const SizedBox(
+              height: 10,
+            ),
+            // if account already created------------------------------------------
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Already have an account?',
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                PrimaryTxtComponent(appText: 'Login')
+              ],
+            )
+
             // Container(
             //   height: 40,
             //   width: 200,
