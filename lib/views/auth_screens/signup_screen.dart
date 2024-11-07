@@ -6,6 +6,7 @@ import 'package:todoapp/constants/app_assets/images.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
 import 'package:todoapp/controllers/components/image_component.dart';
 import 'package:todoapp/controllers/components/primary_text_component.dart';
+import 'package:todoapp/controllers/components/text_form_field_component.dart';
 //import 'package:todoapp/views/auth_screens/login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -17,8 +18,8 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _userNameController = TextEditingController();
-  //final TextEditingController _emailController = TextEditingController();
-  // final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   //bool isLoading = false; //value is false at the start
   @override
   Widget build(BuildContext context) {
@@ -27,12 +28,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //image Component------------------------
+            //image Component-------------------------------------
             ImageComponent(appImage: AppImages.loginImage),
             const SizedBox(
               height: 10,
             ),
-            // Text Component-------------------------
+            // Text Component------------------------------------
             const PrimaryTxtComponent(
               appText: 'Welcome Onboard!',
               appTextSize: 20,
@@ -40,7 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             const SizedBox(
               height: 10,
             ),
-            //Text Component-------------------------
+            //Text Component---------------------------------
             const PrimaryTxtComponent(
               appText: 'Lets help you in completing your tasks',
               appTextSize: 12,
@@ -48,26 +49,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             const SizedBox(
               height: 20,
             ),
-            //Container or TextFormField Component-----------------
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: AppColors.appPrimaryColor,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: TextFormField(
-                controller: _userNameController,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter Your Full Name',
-                  hintStyle: TextStyle(color: AppColors.appWhiteColor),
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: AppColors.appWhiteColor,
-                  ),
-                ),
-              ),
-            )
+            //Container or TextFormField Component--------------------------
+            TxtFormFieldComponent(
+              textHint: 'Enter Your Full Name',
+              appController: _userNameController,
+              appIcons: Icons.person,
+            ),
+            TxtFormFieldComponent(
+              textHint: 'Enter Your Email',
+              appController: _emailController,
+              appIcons: Icons.email_outlined,
+            ),
+            TxtFormFieldComponent(
+              textHint: 'Enter Your Password',
+              appController: _passwordController,
+              appIcons: Icons.lock,
+              isTextObscure: true,
+            ),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(horizontal: 20),
+            //   decoration: BoxDecoration(
+            //     color: AppColors.appPrimaryColor,
+            //     borderRadius: BorderRadius.circular(5),
+            //   ),
+            //   child: TextFormField(
+            //     controller: _userNameController,
+            //     decoration: InputDecoration(
+            //       border: InputBorder.none,
+            //       hintText: 'Enter Your Full Name',
+            //       hintStyle: TextStyle(color: AppColors.appWhiteColor),
+            //       prefixIcon: Icon(
+            //         Icons.person,
+            //         color: AppColors.appWhiteColor,
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
