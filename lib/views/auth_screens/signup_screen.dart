@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //import 'package:get/get.dart';
 import 'package:todoapp/constants/app_assets/images.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
+import 'package:todoapp/controllers/components/conatiner_component.dart';
 import 'package:todoapp/controllers/components/image_component.dart';
 import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
@@ -84,6 +85,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             //       ),
             //     ),
             //   ),
+            // )
+
+            //Custom Button Component--------------------------------------------------------
+            // Container(
+            //   height: 40,
+            //   width: 200,
+            //   decoration: BoxDecoration(
+            //     color: AppColors.appPrimaryColor,
+            //     borderRadius: BorderRadius.circular(100),
+            //   ),
+            //   child: Center(
+            //     child: Text('Login', style: TextStyle(color: AppColors.appWhiteColor, fontSize: 12),
+            //   ),
+
+            // )
             // )
           ],
         ),
