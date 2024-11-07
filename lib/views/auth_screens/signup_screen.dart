@@ -1,14 +1,19 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
+//import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:todoapp/constants/app_assets/images.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
+import 'package:todoapp/controllers/components/apploader/apploader.dart';
 import 'package:todoapp/controllers/components/conatiner_component.dart';
 import 'package:todoapp/controllers/components/custom_button_component.dart';
 import 'package:todoapp/controllers/components/image_component.dart';
 import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
+import 'package:todoapp/views/auth_screens/login_screen.dart';
 //import 'package:todoapp/views/auth_screens/login_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -22,109 +27,179 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  //bool isLoading = false; //value is false at the start
+  bool isLoading = false; //value is false at the start
+
+  Future<void> firebaseRegistration() async {
+    isLoading = true;
+    setState(() {});
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim())
+        .then(
+      (value) {
+        //Account created successfully-----Show Snackbar--------
+        Get.snackbar(
+          'Successful',
+          'Account created successfully',
+          backgroundColor: AppColors.appPrimaryColor.withOpacity(0.8),
+          duration: const Duration(seconds: 4),
+        );
+        isLoading = false;
+        setState(() {});
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            );
+          },
+        );
+      },
+    ).onError((error, value) {
+      isLoading = false;
+      setState(() {});
+      Get.snackbar(
+        icon: const Icon(
+          Icons.error_outline,
+          color: Colors.red,
+        ),
+        'Error',
+        'Could not create an account',
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //image Component-------------------------------------
-            ImageComponent(appImage: AppImages.loginImage),
-            const SizedBox(
-              height: 10,
-            ),
-            // Text Component------------------------------------
-            const PrimaryTxtComponent(
-              appText: 'Welcome Onboard!',
-              appTextSize: 20,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            //Text Component---------------------------------
-            const PrimaryTxtComponent(
-              appText: 'Lets help you in completing your tasks',
-              appTextSize: 12,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            //Container or TextFormField Component--------------------------
-            TxtFormFieldComponent(
-              textHint: 'Enter Your Full Name',
-              appController: _userNameController,
-              appIcons: Icons.person,
-            ),
-            TxtFormFieldComponent(
-              textHint: 'Enter Your Email',
-              appController: _emailController,
-              appIcons: Icons.email_outlined,
-            ),
-            TxtFormFieldComponent(
-              textHint: 'Enter Your Password',
-              appController: _passwordController,
-              appIcons: Icons.lock,
-              isTextObscure: true,
-            ),
-            // Container(
-            //   margin: const EdgeInsets.symmetric(horizontal: 20),
-            //   decoration: BoxDecoration(
-            //     color: AppColors.appPrimaryColor,
-            //     borderRadius: BorderRadius.circular(5),
-            //   ),
-            //   child: TextFormField(
-            //     controller: _userNameController,
-            //     decoration: InputDecoration(
-            //       border: InputBorder.none,
-            //       hintText: 'Enter Your Full Name',
-            //       hintStyle: TextStyle(color: AppColors.appWhiteColor),
-            //       prefixIcon: Icon(
-            //         Icons.person,
-            //         color: AppColors.appWhiteColor,
-            //       ),
-            //     ),
-            //   ),
-            // )
-            const SizedBox(
-              height: 20,
-            ),
-            //Custom Button Component--------------------------------------------------------
-            ButtonComponent(buttonText: 'Login', onbuttonTap: () {}),
-
-            const SizedBox(
-              height: 10,
-            ),
-            // if account already created------------------------------------------
-            const Row(
+      body: Stack(
+        children: [
+          const Positioned(
+            top: -5,
+            left: -15,
+            child: ConatinerComponent(),
+          ),
+          Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Already have an account?',
+                //image Component-------------------------------------
+                ImageComponent(appImage: AppImages.loginImage),
+                const SizedBox(
+                  height: 10,
+                ),
+                // Text Component------------------------------------
+                const PrimaryTxtComponent(
+                  appText: 'Welcome Onboard!',
+                  appTextSize: 20,
                 ),
                 const SizedBox(
-                  width: 4,
+                  height: 10,
                 ),
-                PrimaryTxtComponent(appText: 'Login')
+                //Text Component---------------------------------
+                const PrimaryTxtComponent(
+                  appText: 'Lets help you in completing your tasks',
+                  appTextSize: 12,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                //Container or TextFormField Component--------------------------
+                TxtFormFieldComponent(
+                  textHint: 'Enter Your Full Name',
+                  appController: _userNameController,
+                  appIcons: Icons.person,
+                ),
+                TxtFormFieldComponent(
+                  textHint: 'Enter Your Email',
+                  appController: _emailController,
+                  appIcons: Icons.email_outlined,
+                ),
+                TxtFormFieldComponent(
+                  textHint: 'Enter Your Password',
+                  appController: _passwordController,
+                  appIcons: Icons.lock,
+                  isTextObscure: true,
+                ),
+                // Container(
+                //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                //   decoration: BoxDecoration(
+                //     color: AppColors.appPrimaryColor,
+                //     borderRadius: BorderRadius.circular(5),
+                //   ),
+                //   child: TextFormField(
+                //     controller: _userNameController,
+                //     decoration: InputDecoration(
+                //       border: InputBorder.none,
+                //       hintText: 'Enter Your Full Name',
+                //       hintStyle: TextStyle(color: AppColors.appWhiteColor),
+                //       prefixIcon: Icon(
+                //         Icons.person,
+                //         color: AppColors.appWhiteColor,
+                //       ),
+                //     ),
+                //   ),
+                // )
+                const SizedBox(
+                  height: 20,
+                ),
+                //Custom Button Component--------------------------------------------------------
+                isLoading
+                    ? const AppLoader()
+                    : ButtonComponent(
+                        buttonText: 'Login',
+                        onbuttonTap: () {
+                          //calling firebaseRegistration function***********
+                          firebaseRegistration();
+                        }),
+
+                const SizedBox(
+                  height: 10,
+                ),
+                // if account already created------------------------------------------
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an account?',
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const PrimaryTxtComponent(appText: 'Login'))
+                  ],
+                )
+
+                // Container(
+                //   height: 40,
+                //   width: 200,
+                //   decoration: BoxDecoration(
+                //     color: AppColors.appPrimaryColor,
+                //     borderRadius: BorderRadius.circular(100),
+                //   ),
+                //   child: Center(
+                //     child: Text('Login', style: TextStyle(color: AppColors.appWhiteColor, fontSize: 12),
+                //   ),
+
+                // )
+                // )
               ],
-            )
-
-            // Container(
-            //   height: 40,
-            //   width: 200,
-            //   decoration: BoxDecoration(
-            //     color: AppColors.appPrimaryColor,
-            //     borderRadius: BorderRadius.circular(100),
-            //   ),
-            //   child: Center(
-            //     child: Text('Login', style: TextStyle(color: AppColors.appWhiteColor, fontSize: 12),
-            //   ),
-
-            // )
-            // )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
 
