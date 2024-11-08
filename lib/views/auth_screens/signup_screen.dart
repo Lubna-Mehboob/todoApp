@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/constants/app_assets/images.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
+import 'package:todoapp/controllers/components/account_exists_component.dart';
 import 'package:todoapp/controllers/components/apploader/apploader.dart';
 import 'package:todoapp/controllers/components/conatiner_component.dart';
 import 'package:todoapp/controllers/components/custom_button_component.dart';
@@ -151,37 +152,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 isLoading
                     ? const AppLoader()
                     : ButtonComponent(
-                        buttonText: 'Login',
+                        buttonText: 'Register',
                         onbuttonTap: () {
                           //calling firebaseRegistration function***********
                           firebaseRegistration();
-                        }),
+                        },
+                      ),
 
                 const SizedBox(
                   height: 10,
                 ),
-                // if account already created------------------------------------------
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Already have an account?',
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                        },
-                        child: const PrimaryTxtComponent(appText: 'Login'))
-                  ],
-                )
+                // if account already created***********account_exist_component--------------------
+                const AccountExists(
+                  rowText: 'Already have an account?',
+                  nextScreen: LoginScreen(),
+                  rowText2: 'Login',
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     const Text(
+                //       'Already have an account?',
+                //     ),
+                //     const SizedBox(
+                //       width: 4,
+                //     ),
+                //     InkWell(
+                //         onTap: () {
+                //           Navigator.push(
+                //             context,
+                //             CupertinoPageRoute(
+                //               builder: (context) => LoginScreen(),
+                //             ),
+                //           );
+                //         },
+                //         child: const PrimaryTxtComponent(appText: 'Login'))
+                //   ],
+                // )
 
                 // Container(
                 //   height: 40,

@@ -1,23 +1,111 @@
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+//import 'package:get/get_core/src/get_main.dart';
+import 'package:todoapp/constants/app_assets/images.dart';
+import 'package:todoapp/constants/colors/app_colors.dart';
+import 'package:todoapp/controllers/components/account_exists_component.dart';
+import 'package:todoapp/controllers/components/apploader/apploader.dart';
+import 'package:todoapp/controllers/components/custom_button_component.dart';
+import 'package:todoapp/controllers/components/image_component.dart';
+import 'package:todoapp/controllers/components/primary_text_component.dart';
+import 'package:todoapp/controllers/components/text_form_field_component.dart';
+import 'package:todoapp/views/auth_screens/signup_screen.dart';
+import 'package:todoapp/views/home_screens/home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passowrdController = TextEditingController();
+  bool isLoading = false;
+
+  Future<void> accountLogin() async {
+    isLoading = true;
+    setState(() {});
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passowrdController.text.trim())
+        .then((value) {
+      //Account created successfully-----Show Snackbar-------------
+      Get.snackbar(
+        'Successful',
+        'You have successfully Signin to your account',
+        backgroundColor: AppColors.appPrimaryColor.withOpacity(0.8),
+      );
+      isLoading = false;
+      setState(() {});
+      Get.to(() => const HomeScreen());
+    }).onError((error, value) {
+      isLoading = false;
+      setState(() {});
+      Get.snackbar(
+        icon: const Icon(
+          Icons.error_outline,
+          color: Colors.red,
+        ),
+        'Error',
+        'Could not signin to your account',
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'WelCome Back!',
-              style: TextStyle(color: Colors.blue, fontSize: 30),
+            const PrimaryTxtComponent(
+              appText: 'WelCome Back!',
+              appTextSize: 20,
+              appTextWeight: FontWeight.w500,
             ),
-            SizedBox(
-              height: 15,
+            const SizedBox(
+              height: 10,
             ),
-            Image(
-              image: AssetImage('lib/controllers/assets/appimages/login.png'),
+            ImageComponent(appImage: AppImages.loginImage),
+            const SizedBox(
+              height: 20,
+            ),
+            TxtFormFieldComponent(
+                textHint: 'Enter Email',
+                appController: _emailController,
+                appIcons: Icons.email_outlined),
+            TxtFormFieldComponent(
+                textHint: 'Enter Password',
+                appController: _passowrdController,
+                appIcons: Icons.lock),
+            const SizedBox(
+              height: 10,
+            ),
+            isLoading
+                ? const AppLoader()
+                : ButtonComponent(
+                    buttonText: 'Login',
+                    onbuttonTap: () {
+                      accountLogin();
+                      // Navigator.push(
+                      //   context,
+                      //   CupertinoPageRoute(
+                      //     builder: (context) => const HomeScreen(),
+                      //   ),
+                      // );
+                      // Get.to(() => const HomeScreen());
+                    }),
+            const AccountExists(
+              rowText: 'Don\'t have an account?',
+              nextScreen: RegistrationScreen(),
+              rowText2: 'Register',
             ),
           ],
         ),
