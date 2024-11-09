@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
 import 'package:todoapp/views/auth_screens/login_screen.dart';
+import 'package:todoapp/views/home_screens/insert_data_screen/insert_todo_data.dart';
 //import 'package:todoapp/views/auth_screens/signup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            CupertinoDialogRoute(
+                builder: (context) => const InsertData(), context: context),
+          );
+        },
         backgroundColor: AppColors.appPrimaryColor,
         child: Icon(
           Icons.add,

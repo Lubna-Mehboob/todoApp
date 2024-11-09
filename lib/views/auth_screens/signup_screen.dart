@@ -30,6 +30,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false; //value is false at the start
 
+  //CReate a seperate funcion for registration----------------
+  //Then call this function in the below button----------------
   Future<void> firebaseRegistration() async {
     isLoading = true;
     setState(() {});
@@ -154,7 +156,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     : ButtonComponent(
                         buttonText: 'Register',
                         onbuttonTap: () {
-                          //calling firebaseRegistration function***********
+                          //*******calling firebaseRegistration() function***********
                           firebaseRegistration();
                         },
                       ),
