@@ -64,20 +64,20 @@ class _HomeScreenState extends State<HomeScreen> {
               return Card(
                 color: AppColors.appSecondaryColor,
                 child: ListTile(
+                  onLongPress: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const UpdateData(),
+                      ),
+                    );
+                  },
                   onTap: () {
                     Get.defaultDialog(
                         title: 'Confirmation',
                         content: const Text('Are you sure you want to delete?'),
                         actions: [
                           TextButton(
-                              onLongPress: () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                    builder: (context) => const UpdateData(),
-                                  ),
-                                );
-                              },
                               onPressed: () async {
                                 await FirebaseFirestore.instance
                                     .collection('todo')
