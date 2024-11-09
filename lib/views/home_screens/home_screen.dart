@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
 import 'package:todoapp/views/auth_screens/login_screen.dart';
 import 'package:todoapp/views/home_screens/insert_data_screen/insert_todo_data.dart';
+import 'package:todoapp/views/home_screens/update_data_screen/update_todo_data.dart';
 //import 'package:todoapp/views/auth_screens/signup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,6 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         content: const Text('Are you sure you want to delete?'),
                         actions: [
                           TextButton(
+                              onLongPress: () {
+                                Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const UpdateData(),
+                                  ),
+                                );
+                              },
                               onPressed: () async {
                                 await FirebaseFirestore.instance
                                     .collection('todo')
