@@ -61,17 +61,23 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.builder(
             itemCount: data.size,
             itemBuilder: (context, Index) {
+              String docid =
+                  data.docs[Index]['id']; //----------Variable>>>>>>>>>>>>
               return Card(
                 color: AppColors.appSecondaryColor,
                 child: ListTile(
+                  //Button on Long Press-------------Move to Update Screen---------
                   onLongPress: () {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => const UpdateData(),
+                        builder: (context) => UpdateData(
+                          docid: docid,
+                        ),
                       ),
                     );
                   },
+                  //Button On Tap-----------Delete the Record---------------------
                   onTap: () {
                     Get.defaultDialog(
                         title: 'Confirmation',
@@ -81,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               onPressed: () async {
                                 await FirebaseFirestore.instance
                                     .collection('todo')
-                                    .doc(data.docs[Index]['id'])
+                                    .doc(docid)
                                     .delete();
                                 Get.back();
                               },

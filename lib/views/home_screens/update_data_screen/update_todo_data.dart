@@ -1,5 +1,6 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
@@ -9,7 +10,8 @@ import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
 
 class UpdateData extends StatefulWidget {
-  const UpdateData({super.key});
+  final String docid;
+  const UpdateData({super.key, required this.docid});
 
   @override
   State<UpdateData> createState() => _UpdateDataState();
@@ -69,6 +71,27 @@ class _UpdateDataState extends State<UpdateData> {
   // }
 
   bool isLoading = false;
+  //Create a function to Update your Data-------------------
+  updateYourData() async {
+    try {
+      isLoading = true;
+      setState(() {});
+      await FirebaseFirestore.instance
+          .collection('todo')
+          .doc(widget.docid)
+          .update({
+        'title': _titleController,
+        'description': _descriptionController,
+        'id': widget.docid,
+      });
+    } catch (error) {
+      //Catch error
+      isLoading = false;
+      setState(() {});
+    } finally {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +138,7 @@ class _UpdateDataState extends State<UpdateData> {
                     onbuttonTap: () {
                       if (_titleController.text != '' &&
                           _descriptionController.text != '') {
+                        updateYourData();
                         //insertYourData();
                       } else {
                         Get.snackbar(
