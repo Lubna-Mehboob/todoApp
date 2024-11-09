@@ -2,7 +2,7 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
 import 'package:todoapp/controllers/components/apploader/apploader.dart';
 import 'package:todoapp/controllers/components/custom_button_component.dart';
@@ -11,7 +11,13 @@ import 'package:todoapp/controllers/components/text_form_field_component.dart';
 
 class UpdateData extends StatefulWidget {
   final String docid;
-  const UpdateData({super.key, required this.docid});
+  final String title;
+  final String description;
+  const UpdateData(
+      {super.key,
+      required this.docid,
+      required this.description,
+      required this.title});
 
   @override
   State<UpdateData> createState() => _UpdateDataState();
@@ -136,17 +142,18 @@ class _UpdateDataState extends State<UpdateData> {
                 : ButtonComponent(
                     buttonText: 'Update',
                     onbuttonTap: () {
-                      if (_titleController.text != '' &&
-                          _descriptionController.text != '') {
-                        updateYourData();
-                        //insertYourData();
-                      } else {
-                        Get.snackbar(
-                          'Error',
-                          'All fields are required to be filled.',
-                          icon: const Icon(Icons.error_outline),
-                        );
-                      }
+                      updateYourData();
+                      // if (_titleController.text != '' &&
+                      //     _descriptionController.text != '') {
+                      //   updateYourData();
+                      //   //insertYourData();
+                      // } else {
+                      //   Get.snackbar(
+                      //     'Error',
+                      //     'All fields are required to be filled.',
+                      //     icon: const Icon(Icons.error_outline),
+                      //   );
+                      // }
                     },
                   )
           ],
