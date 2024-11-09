@@ -25,7 +25,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final TextEditingController _userNameController = TextEditingController();
+  //final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false; //value is false at the start
@@ -112,11 +112,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 20,
                 ),
                 //Container or TextFormField Component--------------------------
-                TxtFormFieldComponent(
-                  textHint: 'Enter Your Full Name',
-                  appController: _userNameController,
-                  appIcons: Icons.person,
-                ),
+                // TxtFormFieldComponent(
+                //   textHint: 'Enter Your Full Name',
+                //   appController: _userNameController,
+                //   appIcons: Icons.person,
+                // ),
                 TxtFormFieldComponent(
                   textHint: 'Enter Your Email',
                   appController: _emailController,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('todo').snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          final data = snapshot.requireData;
+          return ListView.builder(
+            itemCount: data.size,
+            itemBuilder: (context, Index) {
+              return Card(
+                color: AppColors.appSecondaryColor,
+                child: ListTile(
+                  title: Text(data.docs[Index]['title']),
+                  subtitle: Text(data.docs[Index]['description']),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
