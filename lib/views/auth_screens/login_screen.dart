@@ -82,9 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 appController: _emailController,
                 appIcons: Icons.email_outlined),
             TxtFormFieldComponent(
-                textHint: 'Enter Password',
-                appController: _passowrdController,
-                appIcons: Icons.lock),
+              textHint: 'Enter Password',
+              appController: _passowrdController,
+              appIcons: Icons.lock,
+              isTextObscure: true,
+            ),
             const SizedBox(
               height: 10,
             ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
@@ -26,6 +27,8 @@ class _InsertDataState extends State<InsertData> {
       setState(() {});
       //Create a variable to contain document id according to current time(millisecond)
       String id = DateTime.now().millisecondsSinceEpoch.toString();
+      String uid =
+          FirebaseAuth.instance.currentUser!.uid; // Get the current user's UID
 
       /*millisecondsSinceEpoch is a property of the DateTime object. It returns the number 
     of milliseconds that have passed since the "epoch," which is defined as 
@@ -38,15 +41,20 @@ class _InsertDataState extends State<InsertData> {
           'title': _titleController.text,
           'description': _descriptionController.text,
           'id': id,
+          'uid': uid,
         },
       );
+      Get.snackbar('Success', 'Data inserted successfully!',
+          icon: const Icon(Icons.check),
+          backgroundColor: AppColors.appPrimaryColor);
+      //Navigator.pop(context);
     } catch (error) {
       //catch the error
       isLoading = true;
       setState(() {});
       Get.defaultDialog(
         title: 'Error',
-        content: const Text('Attempt failed'),
+        content: const Text('Data insertion failed. Please try again.'),
         actions: [
           TextButton(
               onPressed: () {
