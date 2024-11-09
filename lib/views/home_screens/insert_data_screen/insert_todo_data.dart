@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todoapp/constants/colors/app_colors.dart';
+import 'package:todoapp/controllers/components/apploader/apploader.dart';
 import 'package:todoapp/controllers/components/custom_button_component.dart';
 import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
@@ -19,13 +21,46 @@ class _InsertDataState extends State<InsertData> {
   // Crete a funtion to insert data into real_time Database-------------------------
 
   insertYourData() async {
-    await FirebaseFirestore.instance.collection('todo').add({
-      //key : value
-      //Field : value
-      'title': _titleController,
-      'description': _descriptionController,
-    });
+    try {
+      isLoading = true;
+      setState(() {});
+      //Create a variable to contain document id according to current time(millisecond)
+      String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+      /*millisecondsSinceEpoch is a property of the DateTime object. It returns the number 
+    of milliseconds that have passed since the "epoch," which is defined as 
+    January 1, 1970, 00:00:00 UTC (the Unix epoch). */
+
+      await FirebaseFirestore.instance.collection('todo').doc(id).set(
+        {
+          //key : value
+          //Field : value
+          'title': _titleController.text,
+          'description': _descriptionController.text,
+          'id': id,
+        },
+      );
+    } catch (error) {
+      //catch the error
+      isLoading = true;
+      setState(() {});
+      Get.defaultDialog(
+        title: 'Error',
+        content: const Text('Attempt failed'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text('Ok'))
+        ],
+      );
+    } finally {
+      Navigator.pop(context);
+    }
   }
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +100,23 @@ class _InsertDataState extends State<InsertData> {
               height: 15,
             ),
             //Custom Button ----------------------
-            ButtonComponent(
-                buttonText: 'Add',
-                onbuttonTap: () {
-                  insertYourData();
-                })
+            isLoading
+                ? const AppLoader()
+                : ButtonComponent(
+                    buttonText: 'Add',
+                    onbuttonTap: () {
+                      if (_titleController.text != '' &&
+                          _descriptionController.text != '') {
+                        insertYourData();
+                      } else {
+                        Get.snackbar(
+                          'Error',
+                          'All fields are required to be filled.',
+                          icon: const Icon(Icons.error_outline),
+                        );
+                      }
+                    },
+                  )
           ],
         ),
       ),
