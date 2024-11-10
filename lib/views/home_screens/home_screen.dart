@@ -61,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView.builder(
             itemCount: data.size,
             itemBuilder: (context, Index) {
-              String docid =
-                  data.docs[Index]['id']; //----------Variable>>>>>>>>>>>>
+              String docid = data.docs[Index]['id'];
+              String title = data.docs[Index]['title'];
+              String description = data.docs[Index]
+                  ['description']; //----------Variables>>>>>>>>>>>>
               return Card(
                 color: AppColors.appSecondaryColor,
                 child: ListTile(
@@ -73,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       CupertinoPageRoute(
                         builder: (context) => UpdateData(
                           docid: docid,
+                          description: description,
+                          title: title,
                         ),
                       ),
                     );
@@ -98,8 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   backgroundColor: AppColors.appWhiteColor,
                   //   child: Text(data.docs[Index]['id']),
                   // ),
-                  title: Text(data.docs[Index]['title']),
-                  subtitle: Text(data.docs[Index]['description']),
+                  title: Text(title),
+                  subtitle: Text(description),
                 ),
               );
             },

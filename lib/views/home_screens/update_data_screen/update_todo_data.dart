@@ -86,17 +86,24 @@ class _UpdateDataState extends State<UpdateData> {
           .collection('todo')
           .doc(widget.docid)
           .update({
-        'title': _titleController,
-        'description': _descriptionController,
+        'title': _titleController.text,
+        'description': _descriptionController.text,
         'id': widget.docid,
       });
     } catch (error) {
       //Catch error
+    } finally {
       isLoading = false;
       setState(() {});
-    } finally {
       Navigator.pop(context);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.title;
+    _descriptionController.text = widget.description;
   }
 
   @override
