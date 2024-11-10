@@ -9,14 +9,11 @@ import 'package:todoapp/views/home_screens/insert_data_screen/insert_todo_data.d
 import 'package:todoapp/views/home_screens/update_data_screen/update_todo_data.dart';
 //import 'package:todoapp/views/auth_screens/signup_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  final String userId = '';
+  final String userEmail = '';
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

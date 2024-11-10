@@ -46,21 +46,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           'Successful',
           'Account created successfully',
           backgroundColor: AppColors.appPrimaryColor.withOpacity(0.8),
-          duration: const Duration(seconds: 4),
+          //duration: const Duration(seconds: 4),
         );
         isLoading = false;
         setState(() {});
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const LoginScreen(),
-              ),
-            );
-          },
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
         );
+        // Future.delayed(
+        //   const Duration(seconds: 1),
+        //   () {
+
+        //   },
+        // );
       },
     ).onError((error, value) {
       isLoading = false;
