@@ -9,12 +9,31 @@ import 'package:todoapp/views/home_screens/insert_data_screen/insert_todo_data.d
 import 'package:todoapp/views/home_screens/update_data_screen/update_todo_data.dart';
 //import 'package:todoapp/views/auth_screens/signup_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-  final String userId = '';
-  final String userEmail = '';
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  //Global Variables-------------------
+  String userId = '';
+
+  String userEmail = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    userId = user!.uid;
+    userEmail = user.email ?? "";
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -32,6 +51,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
+        title: Text(userEmail),
         backgroundColor: AppColors.appPrimaryColor,
         actions: [
           IconButton(
