@@ -36,12 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      //FloatingActionButton to insert data to the app----------------------------------
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
             CupertinoDialogRoute(
-                builder: (context) => const InsertData(), context: context),
+                builder: (context) => InsertData(userEmail: userEmail),
+                context: context),
           );
         },
         backgroundColor: AppColors.appPrimaryColor,
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(userEmail),
         backgroundColor: AppColors.appPrimaryColor,
         actions: [
+          //IconButton to signout from app------------------------
           IconButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
@@ -71,8 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      //StreamBuilder to fetch/Read data from firestore---------------
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('todo').snapshots(),
+        stream: FirebaseFirestore.instance.collection(userEmail).snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           final data = snapshot.requireData;
           return ListView.builder(
@@ -94,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           docid: docid,
                           description: description,
                           title: title,
+                          userEmail: userEmail,
                         ),
                       ),
                     );
@@ -107,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           TextButton(
                               onPressed: () async {
                                 await FirebaseFirestore.instance
-                                    .collection('todo')
+                                    .collection(userEmail)
                                     .doc(docid)
                                     .delete();
                                 Get.back();

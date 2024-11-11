@@ -9,7 +9,8 @@ import 'package:todoapp/controllers/components/primary_text_component.dart';
 import 'package:todoapp/controllers/components/text_form_field_component.dart';
 
 class InsertData extends StatefulWidget {
-  const InsertData({super.key});
+  final String userEmail;
+  const InsertData({super.key, required this.userEmail});
 
   @override
   State<InsertData> createState() => _InsertDataState();
@@ -34,7 +35,7 @@ class _InsertDataState extends State<InsertData> {
     of milliseconds that have passed since the "epoch," which is defined as 
     January 1, 1970, 00:00:00 UTC (the Unix epoch). */
 
-      await FirebaseFirestore.instance.collection('todo').doc(id).set(
+      await FirebaseFirestore.instance.collection(widget.userEmail).doc(id).set(
         {
           //key : value
           //Field : value

@@ -13,11 +13,13 @@ class UpdateData extends StatefulWidget {
   final String docid;
   final String title;
   final String description;
+  final String userEmail;
   const UpdateData(
       {super.key,
       required this.docid,
       required this.description,
-      required this.title});
+      required this.title,
+      required this.userEmail});
 
   @override
   State<UpdateData> createState() => _UpdateDataState();
@@ -83,7 +85,7 @@ class _UpdateDataState extends State<UpdateData> {
       isLoading = true;
       setState(() {});
       await FirebaseFirestore.instance
-          .collection('todo')
+          .collection(widget.userEmail)
           .doc(widget.docid)
           .update({
         'title': _titleController.text,
