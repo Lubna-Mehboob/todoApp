@@ -75,62 +75,81 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       //StreamBuilder to fetch/Read data from firestore---------------
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(userEmail).snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          final data = snapshot.requireData;
-          return ListView.builder(
-            itemCount: data.size,
-            itemBuilder: (context, Index) {
-              //Three variables created for DocId, title, and description---------
-              String docid = data.docs[Index]['id'];
-              String title = data.docs[Index]['title'];
-              String description = data.docs[Index]['description'];
-              return Card(
-                color: AppColors.appSecondaryColor,
-                child: ListTile(
-                  //Button on Long Press-------------Move to Update Screen---------
-                  onLongPress: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => UpdateData(
-                          docid: docid,
-                          description: description,
-                          title: title,
-                          userEmail: userEmail,
-                        ),
-                      ),
-                    );
-                  },
-                  //Button On Tap-----------Delete the Record---------------------
-                  onTap: () {
-                    Get.defaultDialog(
-                        title: 'Confirmation',
-                        content: const Text('Are you sure you want to delete?'),
-                        actions: [
-                          TextButton(
-                              onPressed: () async {
-                                await FirebaseFirestore.instance
-                                    .collection(userEmail)
-                                    .doc(docid)
-                                    .delete();
-                                Get.back();
-                              },
-                              child: const Text('Yes'))
-                        ]);
-                  },
-                  // leading: CircleAvatar(
-                  //   backgroundColor: AppColors.appWhiteColor,
-                  //   child: Text(data.docs[Index]['id']),
-                  // ),
-                  title: Text(title),
-                  subtitle: Text(description),
-                ),
+      body: Stack(
+        children: [
+          StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection(userEmail).snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child:
+                      CircularProgressIndicator(), // Show loader while data is loading
+                );
+              }
+
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text('Error loading data'),
+                );
+              }
+
+              final data = snapshot.requireData;
+              return ListView.builder(
+                itemCount: data.size,
+                itemBuilder: (context, Index) {
+                  //Three variables created for DocId, title, and description---------
+                  String docid = data.docs[Index]['id'];
+                  String title = data.docs[Index]['title'];
+                  String description = data.docs[Index]['description'];
+                  return Card(
+                    color: AppColors.appSecondaryColor,
+                    child: ListTile(
+                      //Button on Long Press-------------Move to Update Screen---------
+                      onLongPress: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => UpdateData(
+                              docid: docid,
+                              description: description,
+                              title: title,
+                              userEmail: userEmail,
+                            ),
+                          ),
+                        );
+                      },
+                      //Button On Tap-----------Delete the Record---------------------
+                      onTap: () {
+                        Get.defaultDialog(
+                            title: 'Confirmation',
+                            content:
+                                const Text('Are you sure you want to delete?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection(userEmail)
+                                        .doc(docid)
+                                        .delete();
+                                    Get.back();
+                                  },
+                                  child: const Text('Yes'))
+                            ]);
+                      },
+                      // leading: CircleAvatar(
+                      //   backgroundColor: AppColors.appWhiteColor,
+                      //   child: Text(data.docs[Index]['id']),
+                      // ),
+                      title: Text(title),
+                      subtitle: Text(description),
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }
