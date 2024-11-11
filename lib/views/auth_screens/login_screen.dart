@@ -30,6 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> accountLogin() async {
     isLoading = true;
     setState(() {});
+
+    //----Firebase----User Authorization------Command-------------
+
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(
             email: _emailController.text.trim(),
@@ -43,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       isLoading = false;
       setState(() {});
+      //If login successful the move to HomeScreen-------------------
       Get.to(() => const HomeScreen());
     }).onError((error, value) {
       isLoading = false;

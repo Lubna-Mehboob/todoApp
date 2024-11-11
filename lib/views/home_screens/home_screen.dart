@@ -39,9 +39,9 @@ class HomeScreen extends StatelessWidget {
               await FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(
                 context,
-                CupertinoDialogRoute(
-                    builder: (context) => const LoginScreen(),
-                    context: context),
+                CupertinoPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
               );
             },
             icon: Icon(
@@ -58,10 +58,10 @@ class HomeScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: data.size,
             itemBuilder: (context, Index) {
+              //Three variables created for DocId, title, and description---------
               String docid = data.docs[Index]['id'];
               String title = data.docs[Index]['title'];
-              String description = data.docs[Index]
-                  ['description']; //----------Variables>>>>>>>>>>>>
+              String description = data.docs[Index]['description'];
               return Card(
                 color: AppColors.appSecondaryColor,
                 child: ListTile(
