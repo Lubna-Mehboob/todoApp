@@ -80,6 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           const Positioned(
@@ -92,22 +93,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //image Component-------------------------------------
-                ImageComponent(appImage: AppImages.loginImage),
+                //ImageComponent(appImage: AppImages.loginImage),
                 const SizedBox(
                   height: 10,
                 ),
                 // Text Component------------------------------------
                 const PrimaryTxtComponent(
                   appText: 'Welcome Onboard!',
-                  appTextSize: 20,
+                  appTextSize: 30,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 //Text Component---------------------------------
                 const PrimaryTxtComponent(
                   appText: 'Lets help you in completing your tasks',
-                  appTextSize: 12,
+                  appTextSize: 16,
                 ),
                 const SizedBox(
                   height: 20,

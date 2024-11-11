@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading = false;
       setState(() {});
       //If login successful the move to HomeScreen-------------------
-      Get.to(() => const HomeScreen());
+      Navigator.pushReplacement(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+      //Get.to(() => const HomeScreen());
     }).onError((error, value) {
       isLoading = false;
       setState(() {});
@@ -64,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
